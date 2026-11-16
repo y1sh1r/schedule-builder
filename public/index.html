@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Wochenplaner – Alltag, Arbeit und Freizeit</title>
+    <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+<nav>
+    <a class="nav-logo" href="#">
+        <div class="nav-logo-icon">
+            <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+            >
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <path d="M16 2v4M8 2v4M3 10h18"/>
+                <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+            </svg>
+        </div>
+        <span class="nav-logo-text">Wochen<span>plan</span></span>
+    </a>
+</nav>
+
+<div class="app-body">
+    <aside class="sidebar" hidden>
+        <div class="sidebar-head">
+            <h2>Verfügbare Kurse</h2>
+            <div class="sidebar-filter">
+                <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                >
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <input type="text" placeholder="Kurse suchen…" aria-label="Kurse suchen"/>
+            </div>
+        </div>
+        <div class="sidebar-list"></div>
+    </aside>
+
+    <div class="main-area">
+        <div class="main-toolbar">
+            <div class="main-toolbar-left">
+                <h2>Mein Wochenplan</h2>
+            </div>
+            <div class="main-toolbar-right">
+                <button class="btn-sm btn-primary" id="btn-open-task">
+                    <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                    >
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Eigener Termin
+                </button>
+                <button type="button" class="btn-sm btn-sm-outline" id="btn-import-courses">Kurse importieren</button>
+                <input type="file" id="course-file" accept=".json,application/json" hidden/>
+                <button class="btn-sm btn-sm-outline" id="btn-export">
+                    <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                    >
+                        <path
+                                d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"
+                        />
+                    </svg>
+                    Export
+                </button>
+            </div>
+        </div>
+
+        <p id="course-import-status" role="status" hidden></p>
+        <div class="calendar-wrapper">
+            <div class="schedule-shell">
+                <table class="schedule-table">
+                    <colgroup><col class="col-time"/><col/><col/><col/><col/><col/><col/><col/></colgroup>
+                    <thead><tr><th>Zeit</th><th>Montag</th><th>Dienstag</th><th>Mittwoch</th><th>Donnerstag</th><th>Freitag</th><th>Samstag</th><th>Sonntag</th></tr></thead>
+                    <tbody><tr><td>00:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>02:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>04:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>06:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>08:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>10:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>12:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>14:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>16:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>18:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>20:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>22:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody><tfoot><tr><th scope="row">24:00</th><td colspan="7"></td></tr></tfoot>
+                </table>
+                <div class="schedule-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="task-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="task-modal-title">
+        <div class="modal-header">
+            <h2 class="modal-title" id="task-modal-title">Eigener Termin</h2>
+            <button class="close-btn" id="btn-close-task" aria-label="Schließen">&times;</button>
+        </div>
+
+        <form id="custom-task-form">
+            <div class="form-group">
+                <label for="title">Titel</label>
+                <input
+                        type="text"
+                        id="title"
+                        placeholder="z. B. Sport, Arbeiten, Familienzeit …"
+                        required
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Beschreibung (Optional)</label>
+                <textarea
+                        id="description"
+                        placeholder="Zusätzliche Details hinzufügen"
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <div class="days-header">
+                    <label>Tage auswählen</label>
+                </div>
+                <div class="days-grid"><label class="checkbox-item"><input type="checkbox" checked/> Montag</label><label class="checkbox-item"><input type="checkbox" /> Dienstag</label><label class="checkbox-item"><input type="checkbox" /> Mittwoch</label><label class="checkbox-item"><input type="checkbox" /> Donnerstag</label><label class="checkbox-item"><input type="checkbox" /> Freitag</label><label class="checkbox-item"><input type="checkbox" /> Samstag</label><label class="checkbox-item"><input type="checkbox" /> Sonntag</label></div>
+            </div>
+
+            <div class="time-grid">
+                <div class="form-group">
+                    <label for="start">Startzeit</label>
+                    <input type="time" id="start" value="08:00" required/>
+                </div>
+                <div class="form-group">
+                    <label for="end">Endzeit</label>
+                    <input type="time" id="end" value="09:30" required/>
+                    <small>00:00 als Endzeit bedeutet Tagesende. Termine über Mitternacht bitte auf zwei Tage aufteilen.</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Farbe im Wochenplan</label>
+                <div class="color-select">
+                    <select id="color-select-input">
+                        <option value="event-custom-blue">Blau</option>
+                        <option value="event-custom-green" selected>
+                            Grün
+                        </option>
+                        <option value="event-custom-red">Rot</option>
+                        <option value="event-custom-purple">
+                            Lila
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="footer">
+                <button
+                        type="button"
+                        class="btn btn-cancel"
+                        id="btn-delete-task"
+                        style="
+                display: none;
+                border-color: var(--color-konflikt);
+                color: var(--color-konflikt);
+                margin-right: auto;
+              "
+                >
+                    Löschen
+                </button>
+                <button type="button" class="btn btn-cancel" id="btn-cancel-task">
+                    Abbrechen
+                </button>
+                <button type="submit" class="btn btn-save">Speichern</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>
