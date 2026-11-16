@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+__MACOSX/
+.idea/
+.vscode/
+.env
+.env.*
+!.env.example
+*.log
