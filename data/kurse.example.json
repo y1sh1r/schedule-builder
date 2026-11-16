@@ -1,0 +1,17 @@
+{
+  "kurse": [
+    {
+      "id": "",
+      "name": "",
+      "beschreibung": "",
+      "termine": [
+        {
+          "tag": "",
+          "start": "",
+          "ende": "",
+          "ort": ""
+        }
+      ]
+    }
+  ]
+}
